@@ -74,7 +74,8 @@ function packPhar() {
 
         $phar = new Phar($pharFile);
         $phar->buildFromDirectory($inputFolder);
-        $phar->setStub($phar->createDefaultStub('
+        $phar->setStub($phar->createDefaultStub(
+            <<<STUB
 <?php
 
 /*
@@ -246,7 +247,7 @@ echo "Cache ready at $cacheName in " . number_format((hrtime(true) - $start) / 1
 define('pocketmine\ORIGINAL_PHAR_PATH', __FILE__);
 require 'phar://' . str_replace(DIRECTORY_SEPARATOR, '/', $cacheName) . '/src/PocketMine.php';
 
-__HALT_COMPILER();')); 
+__HALT_COMPILER();STUB)); 
         successMessage("打包完成！生成的 Phar 文件：$pharFile");
     } catch (Exception $e) {
         errorMessage($e->getMessage());
